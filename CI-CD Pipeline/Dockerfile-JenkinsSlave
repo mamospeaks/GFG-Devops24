@@ -1,5 +1,4 @@
-
-FROM centos:7
+FROM amazonlinux
 #if it takes time to build docker image or it got stuck while building, then use "amazonlinux:latest" as the base image
 # Install necessary packages
 RUN yum update -y
@@ -11,6 +10,10 @@ RUN yum install python3 -y
 RUN wget https://download.oracle.com/java/17/archive/jdk-17.0.8_linux-x64_bin.rpm
 RUN yum install -y jdk-17.0.8_linux-x64_bin.rpm
 
+#RUN sed -i 's/^#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config && \
+#        sed -i 's/^#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+COPY sshd_config /etc/ssh/sshd_config
 # Set root password
 RUN echo 'root:redhat' | chpasswd
 
